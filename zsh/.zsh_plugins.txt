@@ -1,0 +1,18 @@
+# zsh-syntax-highlighting
+# last-working-dir
+# frontend-search
+# fzf-tab
+# zsh-autosuggestions
+
+# you can even use Oh My Zsh plugins
+getantidote/use-omz        # handle OMZ dependencies
+ohmyzsh/ohmyzsh path:lib
+ohmyzsh/ohmyzsh path:plugins/last-working-dir
+ohmyzsh/ohmyzsh path:plugins/frontend-search
+
+# add fish-like features
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-history-substring-search
+
+ajeetdsouza/zoxide

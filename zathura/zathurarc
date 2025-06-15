@@ -1,0 +1,15 @@
+# set adjust-open "best-fit"
+# include catppuccin-mocha
+# set default-bg rgba(0.102,0.106,0.149,0.4)
+set default-bg rgba(33,33,32,0.6)
+set statusbar-bg \#212120
+set statusbar-h-padding 16
+set statusbar-v-padding 4
+set font "CodeNewRomanNerdFont-Regular 11"
+set recolor-lightcolor rgba(33.0,33.0,32.0,0.6)
+set recolor-keephue true
+set recolor-reverse-video true
+set render-loading false
+set render-loading-bg rgba(0.102,0.106,0.149,0.4)
+set database sqlite
+set recolor true 
