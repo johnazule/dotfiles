@@ -1,0 +1,8 @@
+[flavor]
+dark = "catppuccin-mocha"
+[icon]
+prepend_dirs = [
+	{ name = "Projects", text = "" },
+	{ name = "BuildFromSource", text = "󰘬" },
+	{ name = "Uni", text = "" },
+]
