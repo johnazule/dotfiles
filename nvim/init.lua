@@ -589,3 +589,22 @@ function CustomPickers.git_diff_upstream(upstream)
 		preview = "file",
 	}
 end
+
+local autogroup = vim.api.nvim_create_augroup('gitblamelineAU', { clear = true })
+vim.api.nvim_create_autocmd("CursorMoved", {
+	group = autogroup,
+	pattern = "*",
+	callback = function(args)
+		local git_root = vim.fn.finddir('.git', '.;');
+		if git_root ~= "" or true then
+			local mark_ns = vim.api.nvim_create_namespace('gitblamelineNS')
+			vim.api.nvim_buf_clear_namespace(0, mark_ns, 0, -1);
+			local current_line = vim.fn.line(".");
+
+			vim.api.nvim_buf_set_extmark(0, mark_ns, current_line - 1, 0, {
+				virt_text = { { "Hello", "Comment" } },
+				virt_text_pos = "right_align",
+			})
+		end
+	end
+})
