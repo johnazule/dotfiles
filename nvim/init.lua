@@ -16,7 +16,7 @@ vim.opt.scrolloff        = 10
 vim.opt.tabstop          = 4
 vim.opt.shiftwidth       = 4
 vim.opt.autoindent       = true
-vim.opt.autochdir        = false
+vim.opt.autochdir        = true
 vim.opt.wrap             = false
 vim.opt.winborder        = "rounded"
 
@@ -524,39 +524,7 @@ require("lazy").setup({
 			version = '*',
 			opts = {},
 			ft = { 'markdown' }, -- Load only for markdown files.
-		}
-
-
-		-- {
-		-- 	'saghen/blink.pairs',
-		-- 	version = '*', -- (recommended) only required with prebuilt binaries
-		--
-		-- 	build = 'cargo build --release',
-		--
-		-- 	--- @module 'blink.pairs'
-		-- 	--- @type blink.pairs.Config
-		-- 	opts = {
-		-- 		mappings = {
-		-- 			-- you can call require("blink.pairs.mappings").enable() and require("blink.pairs.mappings").disable() to enable/disable mappings at runtime
-		-- 			enabled = true,
-		-- 			-- see the defaults: https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L10
-		-- 			pairs = {},
-		-- 		},
-		-- 		highlights = {
-		-- 			enabled = true,
-		-- 			groups = {
-		-- 				'BlinkPairsOrange',
-		-- 				'BlinkPairsPurple',
-		-- 				'BlinkPairsBlue',
-		-- 			},
-		-- 			matchparen = {
-		-- 				enabled = true,
-		-- 				group = 'MatchParen',
-		-- 			},
-		-- 		},
-		-- 		debug = false,
-		-- 	}
-		-- },
+		},
 
 		-- {
 		-- 	"seblyng/roslyn.nvim",
@@ -585,7 +553,6 @@ require("lazy").setup({
 			end,
 		},
 	},
-
 	checker = { enabled = true },
 })
 
