@@ -12,12 +12,14 @@ vim.opt.termguicolors    = true
 -- vim.opt.relativenumber   = true
 vim.opt.number           = true
 vim.opt.cursorline       = true
+vim.opt.colorcolumn      = "120"
 vim.opt.scrolloff        = 10
 vim.opt.tabstop          = 4
 vim.opt.shiftwidth       = 4
 vim.opt.autoindent       = true
-vim.opt.autochdir        = true
+vim.opt.autochdir        = false
 vim.opt.wrap             = false
+vim.opt.textwidth        = 0
 vim.opt.winborder        = "rounded"
 
 local servers            = {
@@ -30,7 +32,7 @@ local servers            = {
 	"vtsls",
 	-- "ts_ls",
 	"eslint",
-	-- "roslyn_ls"
+	"roslyn_ls"
 }
 for _, server in ipairs(servers) do
 	vim.lsp.enable(server)
@@ -505,6 +507,10 @@ require("lazy").setup({
 			opts_extend = { "sources.default" }
 		},
 		{
+			'windwp/nvim-ts-autotag',
+			lazy = false
+		},
+		{
 			'MeanderingProgrammer/render-markdown.nvim',
 			dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
 			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
@@ -551,6 +557,10 @@ require("lazy").setup({
 			config = function()
 				require("dbee").setup( --[[optional config]])
 			end,
+		},
+		{
+			'fei6409/log-highlight.nvim',
+			opts = {},
 		},
 	},
 	checker = { enabled = true },
