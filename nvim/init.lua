@@ -12,17 +12,33 @@ vim.opt.termguicolors    = true
 -- vim.opt.relativenumber   = true
 vim.opt.number           = true
 vim.opt.cursorline       = true
-vim.opt.colorcolumn      = "120"
+-- vim.opt.colorcolumn      = "120"
 vim.opt.scrolloff        = 10
 vim.opt.tabstop          = 4
 vim.opt.shiftwidth       = 4
 vim.opt.autoindent       = true
 vim.opt.autochdir        = false
 vim.opt.wrap             = false
-vim.opt.textwidth        = 0
+-- vim.opt.textwidth        = 0
 vim.opt.winborder        = "rounded"
 
-local servers            = {
+local mySysname          = vim.loop.os_uname().sysname
+local isWin              = mySysname:find 'Windows' and true or false
+
+if isWin then
+	-- Use pwsh (PowerShell 7+) if available, otherwise fallback to powershell (Windows PowerShell 5.x)
+	if vim.fn.executable("pwsh") == 1 then
+		vim.opt.shell = "pwsh"
+	else
+		vim.opt.shell = "powershell"
+	end
+	-- Required shell options for Windows
+	vim.opt.shellcmdflag = "-NoLogo -ExecutionPolicy RemoteSigned -Command"
+	vim.opt.shellquote = ""
+	vim.opt.shellxquote = ""
+end
+
+local servers = {
 	"luals",
 	"ty",
 	"rust_analyzer",
@@ -260,6 +276,112 @@ require("lazy").setup({
 
 		{
 			'neovim/nvim-lspconfig'
+		},
+
+		{
+			'mfussenegger/nvim-dap',
+			config = function()
+				local dap = require('dap')
+				local dap_utils = require('dap.utils')
+
+				local dap_config = {
+					type = 'executable',
+					command = 'netcoredbg',
+					args = { '--interpreter=vscode' },
+					options = {
+						detached = false,
+						justMyCode = false,
+						stopAtEntry = false,
+					},
+				}
+
+
+				dap.adapters.coreclr = dap_config
+				dap.adapters.netcoredbg = dap_config
+
+				dap.configurations.cs = {
+					{
+						type = "coreclr",
+						name = "launch - project selection",
+						request = "launch",
+						program = function()
+							return coroutine.create(function(dap_run_co)
+								local projects = vim.fn.systemlist("dotnet sln " ..
+									vim.g.roslyn_nvim_selected_solution ..
+									" list | rg -e '\\s*(.*csproj)\\s*$' -r '$1'")
+
+								local select_opts = {
+									prompt = 'Select Project: ',
+									kind = 'files'
+								}
+								vim.ui.select(
+									projects,
+									select_opts,
+									function(choice)
+										if choice == nil then
+											coroutine.resume(dap_run_co, dap.ABORT)
+										else
+											local dll_fullpath = vim.fn.system("dotnet msbuild -getProperty:TargetPath " ..
+												choice)
+											local dll_relativepath = vim.fn.fnamemodify(dll_fullpath, ":."):gsub("%s+$",
+												"")
+											vim.notify(dll_relativepath)
+											coroutine.resume(dap_run_co, dll_relativepath)
+										end
+									end
+
+								)
+							end)
+						end,
+					},
+
+					{
+						type = "coreclr",
+						name = "launch - manual dll selection",
+						request = "launch",
+						program = function()
+							return coroutine.create(function(dap_run_co)
+								local dlls = vim.fn.systemlist("rg --files -u -g '*.dll' -g '!**/obj/*'")
+
+								local select_opts = {
+									prompt = 'Run: ',
+									kind = 'files'
+								}
+								vim.ui.select(
+									dlls,
+									select_opts,
+									function(choice)
+										if choice == nil then
+											coroutine.resume(dap_run_co, dap.ABORT)
+										else
+											vim.notify(choice)
+											coroutine.resume(dap_run_co, choice)
+										end
+									end
+
+								)
+							end)
+						end,
+					},
+
+					{
+						type = "coreclr",
+						name = "Attach",
+						request = "attach",
+						processId = dap_utils.pick_process,
+					},
+				}
+			end
+		},
+
+		{
+			"igorlfs/nvim-dap-view",
+			-- let the plugin lazy load itself
+			lazy = false,
+			---@module 'dap-view'
+			---@type dapview.Config
+			opts = {},
+
 		},
 
 		{
@@ -506,10 +628,12 @@ require("lazy").setup({
 			},
 			opts_extend = { "sources.default" }
 		},
+
 		{
 			'windwp/nvim-ts-autotag',
 			lazy = false
 		},
+
 		{
 			'MeanderingProgrammer/render-markdown.nvim',
 			dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
@@ -524,6 +648,7 @@ require("lazy").setup({
 				completions = { blink = { enabled = true } },
 			},
 		},
+
 		{
 			'AntonVanAssche/md-headers.nvim',
 			dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' },
@@ -543,6 +668,7 @@ require("lazy").setup({
 		-- 		lock_target = true
 		-- 	},
 		-- },
+
 		{
 			"kndndrj/nvim-dbee",
 			dependencies = {
@@ -558,6 +684,7 @@ require("lazy").setup({
 				require("dbee").setup( --[[optional config]])
 			end,
 		},
+
 		{
 			'fei6409/log-highlight.nvim',
 			opts = {},
