@@ -1,0 +1,25 @@
+[user]
+	name = Jeremy Spedding
+	email = jspedding@simonschools.net
+[fetch]
+	prune = true
+[safe]
+	directory = E:/Development Projects/simon
+[pull]
+	rebase = true
+[mergetool "vimdiff"]
+	layout = LOCAL,BASE,REMOTE/MERGED
+[mergetool]
+	tool = nvimdiff
+[merge]
+	tool = nvimdiff
+	conflictStyle = zdiff3
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+	minus-style = syntax normal
+    plus-style = syntax normal

@@ -1,3 +1,4 @@
 lazygit/state.yml
 
 *.cache
+oh-my-posh/init.*.ps1

@@ -233,6 +233,7 @@ git:
       useConfig: false
       # e.g. 'difft --color=always'
       externalDiffCommand: ""
+    - externalDiffCommand: "~/AppData/Local/lazygit/windowsDeltaPager.ps1"
   # Config relating to committing
   commit:
     # If true, pass '--signoff' flag when committing
