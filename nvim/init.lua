@@ -174,9 +174,11 @@ vim.pack.add({
 		src = "https://github.com/saghen/blink.cmp",
 		version = vim.version.range('*'),
 	},
+	"https://github.com/rafamadriz/friendly-snippets",
 	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/echasnovski/mini.nvim",
 	"https://github.com/folke/snacks.nvim",
+	"https://github.com/nvim-treesitter/nvim-treesitter",
 });
 
 require("tokyonight").setup();
@@ -222,9 +224,38 @@ vim.api.nvim_set_hl(0, "DiagnosticLineHighlightWarn", { bg = "#FFC777" })
 vim.api.nvim_set_hl(0, "DiagnosticLineHighlightInfo", { bg = "#0DB9D7" })
 vim.api.nvim_set_hl(0, "DiagnosticLineHighlightHint", { bg = "#4FD68E" })
 
+local treesitter = require("nvim-treesitter")
+treesitter.setup()
+local TS_EnsureInstalled = {
+	'lua',
+	'python',
+	'typescript',
+	'vue',
+	'scss',
+	'css'
+}
+local TS_AlreadyInstalled = require('nvim-treesitter.config').get_installed()
+local parsersToInstall = vim.iter(TS_EnsureInstalled)
+	:filter(function(parser)
+		return not vim.tbl_contains(TS_AlreadyInstalled, parser)
+	end)
+	:totable()
+treesitter.install(parsersToInstall)
+
+vim.api.nvim_create_autocmd('FileType', {
+	callback = function()
+		-- Enable treesitter highlighting and disable regex syntax
+		local ok, _ = pcall(vim.treesitter.start)
+		-- Enable treesitter-based indentation
+		if ok then
+			vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+		end
+	end,
+})
+
 local dap = require("dap");
 local dap_utils = require('dap.utils')
-require("nvim-dap-virtual-text").setup();
+require("nvim-dap-virtual-text").setup()
 require("dap-view").setup();
 
 vim.keymap.set("n", "<leader>dB", function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,

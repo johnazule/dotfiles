@@ -1,4 +1,4 @@
-local vue_language_server_path = "C:/Users/JSpedding/AppData/Roaming/npm/node_modules/@vue/"
+local vue_language_server_path = "C:/Users/JSpedding/AppData/Local/Volta/tools/shared/@vue/language-server"
 local vue_plugin = {
 	name = '@vue/typescript-plugin',
 	location = vue_language_server_path,
@@ -6,7 +6,7 @@ local vue_plugin = {
 	configNamespace = 'typescript',
 }
 return {
-	cmd = { 'npx', 'vtsls', '--stdio' },
+	cmd = { 'vtsls', '--stdio' },
 	settings = {
 		vtsls = {
 			tsserver = {

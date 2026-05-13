@@ -1,6 +1,6 @@
 -- local base_on_attach = vim.lsp.config.eslint.on_attach
 return {
-	cmd = { 'npx', 'vscode-eslint-language-server', '--stdio' },
+	cmd = { 'vscode-eslint-language-server', '--stdio' },
 	--   on_attach = function(client, bufnr)
 	--     if not base_on_attach then return end
 	--
@@ -12,10 +12,11 @@ return {
 	--   end,
 	-- })
 
+	---@type lspconfig.settings.eslint
 	settings = {
 		codeActionOnSave = {
 			enable = true
-		}
+		},
 		-- configFile = "E:/Development Projects/simon/Simon.Web/babel.config.json"
 		-- workingDirectories = { mode = 'auto' },
 		-- workingDirectory = { mode = 'location' },
