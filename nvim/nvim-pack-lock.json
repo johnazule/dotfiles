@@ -33,6 +33,10 @@
       "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
+    "schemastore.nvim": {
+      "rev": "5330d61a3b2f7ecf8bf6f9ab4ce12878497f2cee",
+      "src": "https://github.com/b0o/schemastore.nvim"
+    },
     "snacks.nvim": {
       "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
       "src": "https://github.com/folke/snacks.nvim"

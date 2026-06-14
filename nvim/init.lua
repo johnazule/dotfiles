@@ -14,8 +14,28 @@ vim.opt.autochdir        = false
 vim.opt.wrap             = false
 vim.opt.winborder        = "rounded"
 
-local mySysname          = vim.loop.os_uname().sysname
-local isWin              = mySysname:find 'Windows' and true or false
+vim.pack.add({
+	"https://github.com/folke/tokyonight.nvim",
+	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/mfussenegger/nvim-dap",
+	"https://github.com/theHamsta/nvim-dap-virtual-text",
+	"https://github.com/igorlfs/nvim-dap-view",
+	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
+	"https://github.com/folke/which-key.nvim",
+	{
+		src = "https://github.com/saghen/blink.cmp",
+		version = vim.version.range('*'),
+	},
+	"https://github.com/rafamadriz/friendly-snippets",
+	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
+	"https://github.com/echasnovski/mini.nvim",
+	"https://github.com/folke/snacks.nvim",
+	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/b0o/schemastore.nvim"
+});
+
+local mySysname = vim.loop.os_uname().sysname
+local isWin     = mySysname:find 'Windows' and true or false
 
 if isWin then
 	-- Use pwsh (PowerShell 7+) if available, otherwise fallback to powershell (Windows PowerShell 5.x)
@@ -39,7 +59,9 @@ local servers = {
 	"vue_ls",
 	"vtsls",
 	"eslint",
-	"roslyn_ls"
+	"roslyn_ls",
+	"yamlls",
+	"lemminx"
 }
 for _, server in ipairs(servers) do
 	vim.lsp.enable(server)
@@ -161,25 +183,6 @@ vim.api.nvim_create_autocmd("LspProgress", {
 		})
 	end,
 })
-
-vim.pack.add({
-	"https://github.com/folke/tokyonight.nvim",
-	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/mfussenegger/nvim-dap",
-	"https://github.com/theHamsta/nvim-dap-virtual-text",
-	"https://github.com/igorlfs/nvim-dap-view",
-	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
-	"https://github.com/folke/which-key.nvim",
-	{
-		src = "https://github.com/saghen/blink.cmp",
-		version = vim.version.range('*'),
-	},
-	"https://github.com/rafamadriz/friendly-snippets",
-	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
-	"https://github.com/echasnovski/mini.nvim",
-	"https://github.com/folke/snacks.nvim",
-	"https://github.com/nvim-treesitter/nvim-treesitter",
-});
 
 require("tokyonight").setup();
 local transparent_highlights = {
@@ -439,6 +442,11 @@ require("snacks").setup({
 	styles = {
 		notification = {
 			-- wo = { wrap = true } -- Wrap notifications
+		}
+	},
+	lazygit = {
+		config = {
+			os = {}
 		}
 	}
 })

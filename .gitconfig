@@ -22,4 +22,5 @@
 	navigate = true
 	line-numbers = true
 	minus-style = syntax normal
-    plus-style = syntax normal
+	plus-style = syntax normal
+	commit-style = raw

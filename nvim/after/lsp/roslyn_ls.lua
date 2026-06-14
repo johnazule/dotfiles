@@ -11,6 +11,8 @@ local function on_init_sln(client, target)
 	dotnet_utils.set_solution_file(client.id, target)
 
 	local solution_uri = vim.uri_from_fname(vim.fn.fnamemodify(target, ":p"))
+	vim.notify(target)
+	vim.notify(solution_uri)
 
 	---@diagnostic disable-next-line: param-type-mismatch
 	client:notify('solution/open', {
@@ -38,13 +40,10 @@ return {
 		'roslyn-language-server',
 		'--logLevel',
 		'Trace',
-		'--extensionLogDirectory',
-		-- fs.joinpath(uv.os_tmpdir(), 'roslyn_ls/logs'),
-		fs.joinpath(vim.loop.cwd(), 'roslyn_ls/logs'),
 		'--stdio',
 		'--autoLoadProjects',
 	},
-	cmd_cwd = 'C:\\Program Files\\dotnet',
+	-- cmd_cwd = 'C:\\Program Files\\dotnet',
 
 	handlers = {
 		['window/_roslyn_showToast'] = function(_, result, ctx)
@@ -94,7 +93,7 @@ return {
 				return
 				-- if any project files are found choose between them
 			elseif #project_files > 1 then
-				vim.ui.select(solution_files, { prompt = 'Select Solution File: ' }, function(item, _idx)
+				vim.ui.select(project_files, { prompt = 'Select Project File: ' }, function(item, _idx)
 					if item ~= nil then
 						on_init_project(client, { item })
 					end
