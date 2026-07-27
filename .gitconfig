@@ -18,9 +18,15 @@
 	pager = delta
 [interactive]
 	diffFilter = delta --color-only
+[diff]
+	wsErrorHightlight = all
 [delta]
 	navigate = true
 	line-numbers = true
-	minus-style = syntax normal
-	plus-style = syntax normal
+	; minus-style = syntax normal
+	; plus-style = syntax normal
 	commit-style = raw
+	whitespace-error-style = purple reverse
+[push]
+	autoSetupRemote = true
+	default = upstream

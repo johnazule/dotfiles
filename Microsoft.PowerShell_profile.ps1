@@ -24,12 +24,13 @@ if (($lastPath -ne $null) -and (Test-Path $lastPath)) {
     Set-Location $lastPath
 }
 
+Import-Module posh-git
 oh-my-posh init pwsh --config "$Env:CFG\dotfiles\oh-my-posh\config.omp.yaml" | Invoke-Expression
-$originalPrompt = $function:prompt
 
+$oldPrompt = $function:prompt
 function prompt {
     Invoke-DirChangeHook
-    Invoke-Command $originalPrompt
+    Invoke-Command $oldPrompt
 }
 
 Invoke-Expression (& { (zoxide init powershell | Out-String) })

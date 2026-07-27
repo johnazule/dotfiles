@@ -56,6 +56,8 @@ local servers = {
 	"rust_analyzer",
 	"tinymist",
 	"wgsl_analyzer",
+	"html",
+	"emmet_language_server",
 	"vue_ls",
 	"vtsls",
 	"eslint",
